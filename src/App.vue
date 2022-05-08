@@ -25,7 +25,7 @@ export default {
       num: 0
     };
   },
-  mounted() {
+  updated() {
     axios
     .get(`http://localhost:3000/book`)
     .then(data => this.Books = data.data)

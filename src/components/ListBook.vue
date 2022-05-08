@@ -15,6 +15,7 @@
       <th scope="col">Title</th>
       <th scope="col">Author</th>
       <th scope="col">Page</th>
+       <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
@@ -23,6 +24,7 @@
       <td>{{list.title}}</td>
       <td>{{list.author}}</td>
       <td>{{list.page}}</td>
+       <td><button class="btn btn-warning">Edit</button> <button @click.prevent="deleteBooks(list.id)" class="btn btn-danger">Delete</button> </td>
     </tr>
   </tbody>
 </table>
@@ -31,6 +33,7 @@
 </template>
 <script>
 import formAddBook from './formAddBook.vue'
+import axios from 'axios'
 export default {
     components: {formAddBook},
     name: `ListBook`,
@@ -39,6 +42,21 @@ export default {
         return {
             openForm : false
         }
+    },
+    methods:{
+      updateBooks(id){
+        axios.get(`http://localhost:3000/book/${id}`)
+        
+      },
+      deleteBooks(id){
+        axios.delete(`http://localhost:3000/book/${id}`)
+        .then(res=>{
+          console.log(`success delete data`);
+        })
+        .catch(err=>{
+          console.log(err.message);
+        })
+      }
     }    
 }
 </script>

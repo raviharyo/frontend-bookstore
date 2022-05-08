@@ -3,7 +3,7 @@
 </div>
 <div>
 </div>
-  <form @submit="postData(e)" method="post">
+  <form @submit.prevent="postData" method="post">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Title</label>
     <input type="text" v-model="form.title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -31,23 +31,27 @@ data(){
         form:{
             title: '',
             author: '',
-            page:''
+            page:0
         },
         backToList: false
     }
 },
  methods: {
-     postData(e){
+     postData(){
         // console.log(this.form);
-        e.preventDefault()
-         axios.post('http://localhost:3000/book', this.form)
+        let data = JSON.stringify(this.form)
+       console.log(this.form);
+      console.log(data);
+         axios.post('http://localhost:3000/book',{title: this.form.title, author: this.form.author, page:this.form.page})
          .then((res)=>{
-           
-             console.log(res);
+            //  console.log(res)
+             this.form.title = ''
+             this.form.author = ''
+             this.form.page = 0
          })
          .catch((err)=>{
-             console.log(err);
-         })
+             console.log(err.message,'ee')
+         });
 
      }
  }
